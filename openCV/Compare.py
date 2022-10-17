@@ -7,8 +7,6 @@ import imutils
 
 img = cv.imread('Images/Sample6.tif')
 
-blank = np.zeros(img.shape, dtype='uint8')
-
 
 def rescaleframe(frame, scale=.18):
     width = int(frame.shape[1] * scale)
@@ -75,15 +73,31 @@ for (i, c) in enumerate(cnts):
     cv.putText(img, "#{}".format(i + 1), (x, y - 15),
                cv.FONT_HERSHEY_SIMPLEX, 0.45, (0, 0, 255), 2)
     print(int(cX), int(cY))
-    cv.line(img, int(cX), int(cY), (255, 0, 0), thickness=3)
-
+lst = [[]]
+lst2 = [[]]
 # show the output image
-""" cv.imshow("Image", rescaleframe(img))
-for (i,c) in enumerate(cnts):
-    (x, y, w, h) = cv.boundingRect(c)
-    cv.line(img, int(cX), (300,400), (255,255,255), thickness=3) """
+cv.imshow("Image", rescaleframe(img))
+for n in enumerate(cnts):
+    cv.line(img, (lst), (lst2)(255, 255, 255), thickness=3)
+    for (i, c) in enumerate(cnts):
+        (x, y, w, h) = cv.boundingRect(c)
+        ((cX, cY), radius) = cv.minEnclosingCircle(c)
+        pox = i+1
+        if (pox/pox == 1):
+            lst.append(int(cX), int(cY))
+            break
+        else:
+            lst2.append(int(cX), int(cY))
+            break
+
+""" cv.polylines(img, 
+              a, 
+              isClosed = False,
+              color = (0,255,0),
+              thickness = 3, 
+              linetype = cv.LINE_AA) """
 
 cv.imshow("Image", rescaleframe(img))
-cv.line(img, (720, 2635), (1855, 2587), (255, 0, 0), thickness=3)
-cv.imshow("Image with line", rescaleframe(img))
+#cv.line(img, (720, 2635), (1855, 2587), (255, 0, 0), thickness=3)
+#cv.imshow("Image with line", rescaleframe(img))
 cv.waitKey(0)
