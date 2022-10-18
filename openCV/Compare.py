@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from skimage import measure
 import imutils
 
-img = cv.imread('Images/Sample6.tif')
+img = cv.imread('Images/Leo.tif')
 
 
 def rescaleframe(frame, scale=.18):
@@ -17,11 +17,9 @@ def rescaleframe(frame, scale=.18):
     return cv.resize(frame, dimensions, interpolation=cv.INTER_AREA)
 
 
-(height, width) = img.shape[:2]
-
-
 def rotate(img, angle, rotPoint=None):
 
+    (height, width) = img.shape[:2]
     if rotPoint is None:
         rotPoint = (width//2, height//2)
 
@@ -42,62 +40,51 @@ thresh = cv.dilate(thresh, None, iterations=4)
 
 labels = measure.label(thresh, connectivity=2, background=0)
 mask = np.zeros(thresh.shape, dtype="uint8")
-# loop over the unique components
+
 for label in np.unique(labels):
-    # if this is the background label, ignore it
+
     if label == 0:
         continue
-    # otherwise, construct the label mask and count the
-    # number of pixels
+
     labelMask = np.zeros(thresh.shape, dtype="uint8")
     labelMask[labels == label] = 255
     numPixels = cv.countNonZero(labelMask)
-    # if the number of pixels in the component is sufficiently
-    # large, then add it to our mask of "large blobs"
+
     if numPixels > 300:
         mask = cv.add(mask, labelMask)
 
-# find the contours in the mask, then sort them from left to
-# right
+
 cnts = cv.findContours(mask.copy(), cv.RETR_EXTERNAL,
                        cv.CHAIN_APPROX_SIMPLE)
 cnts = imutils.grab_contours(cnts)
 cnts = contours.sort_contours(cnts)[0]
-# loop over the contours
+
+lst = []
+lst2 = []
+
+
 for (i, c) in enumerate(cnts):
-    # draw the bright spot on the image
+
     (x, y, w, h) = cv.boundingRect(c)
     ((cX, cY), radius) = cv.minEnclosingCircle(c)
     cv.circle(img, (int(cX), int(cY)), int(radius),
               (0, 0, 255), 3)
     cv.putText(img, "#{}".format(i + 1), (x, y - 15),
                cv.FONT_HERSHEY_SIMPLEX, 0.45, (0, 0, 255), 2)
-    print(int(cX), int(cY))
-lst = [[]]
-lst2 = [[]]
-# show the output image
-cv.imshow("Image", rescaleframe(img))
-for n in enumerate(cnts):
-    cv.line(img, (lst), (lst2)(255, 255, 255), thickness=3)
-    for (i, c) in enumerate(cnts):
-        (x, y, w, h) = cv.boundingRect(c)
-        ((cX, cY), radius) = cv.minEnclosingCircle(c)
-        pox = i+1
-        if (pox/pox == 1):
-            lst.append(int(cX), int(cY))
-            break
-        else:
-            lst2.append(int(cX), int(cY))
-            break
+    lst.append(int(cX))
+    lst2.append(int(cY))
 
-""" cv.polylines(img, 
-              a, 
-              isClosed = False,
-              color = (0,255,0),
-              thickness = 3, 
-              linetype = cv.LINE_AA) """
+mat_cX = np.asarray(lst)
+mat_cY = np.asarray(lst2)
+matf = np.column_stack((mat_cX, mat_cY))
 
-cv.imshow("Image", rescaleframe(img))
-#cv.line(img, (720, 2635), (1855, 2587), (255, 0, 0), thickness=3)
-#cv.imshow("Image with line", rescaleframe(img))
+
+for index, item in enumerate(matf):
+    if index == len(matf) - 1:
+        break
+    cv.line(img, item, matf[index + 1], [0, 255, 0], 2)
+cv.line(img, matf[0], matf[len(matf)-1], [0, 255, 0], 2)
+
+cv.imshow("Resulting Image", rescaleframe(img))
+
 cv.waitKey(0)
