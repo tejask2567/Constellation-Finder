@@ -36,23 +36,21 @@ def rotate(img, angle, rotPoint=None):
     return cv.warpAffine(img, rotMat, dimensions)
 
 
-test_str = '0'
-reg = re.compile(r'[ 0 - 9]')
-mtch = reg.findall(test_str)
-
-num = ''.join(mtch[-3:])
-i = 0
-add_val = 0
 # joining prefix str and added value
+pattern = re.compile('\d+')
+string = 'img at 0'
+imge = True
+while imge:  # replace your loop condition here
+    match = re.search(pattern, string)
+    if match:
+        match = int(match.group())
+        if match > 300:  # arbitrary condition just to break the loop
+            imge = False
+        else:
+            match += 60
+            rotated = rotate(img, match)
+            string = re.sub(pattern, str(match), string)
 
-for (i, c) in enumerate(img):
-    if (i <= 300 and add_val <= 300):
-        pre_str = test_str.replace(num, '')
-        res = pre_str + str(add_val)
-        rotated = rotate(img, i)
-        cv.imwrite('img at ' + str(res) + '.jpg', rotated)
-        add_val = int(num) + 60
-        i += 90
-    else:
-        break
+    cv.imwrite(string+'.jpg', rotated)
+    print(string)
 cv.waitKey(0)

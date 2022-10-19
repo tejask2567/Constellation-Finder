@@ -75,7 +75,14 @@ for i in enumerate(img):
     for index, item in enumerate(matf):
         if index == len(matf) - 1:
             break
-        cv.line(img, item, matf[index + 1], [0, 255, 0], 2)
-    cv.line(img, matf[0], matf[len(matf)-1], [0, 255, 0], 2)
+        cv.line(img, item, matf[index + 1], [0, 255, 0], 4)
+    cv.line(img, matf[0], matf[len(matf)-1], [0, 255, 0], 4)
+
+    gray_new_2 = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+    ret_new_2, thresh_new_2 = cv.threshold(
+        gray_new_2, 253, 255, cv.THRESH_BINARY)
+    contous_2, hierarchy_2 = cv.findContours(thresh_new_2, cv.RETR_EXTERNAL,
+                                             cv.CHAIN_APPROX_SIMPLE)
+
     comt_diff = cv.matchShapes(
         contous[0], contous_2[0], cv.CONTOURS_MATCH_I1, 0)
