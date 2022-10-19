@@ -6,6 +6,7 @@ from skimage import measure
 import imutils
 
 img = cv.imread('Images/Leo.tif')
+img_new = cv.imread('Images/leo2.jpg')
 
 
 def rescaleframe(frame, scale=.18):
@@ -68,7 +69,7 @@ for (i, c) in enumerate(cnts):
     (x, y, w, h) = cv.boundingRect(c)
     ((cX, cY), radius) = cv.minEnclosingCircle(c)
     cv.circle(img, (int(cX), int(cY)), int(radius),
-              (0, 0, 255), 3)
+              (0, 0, 255), 5)
     cv.putText(img, "#{}".format(i + 1), (x, y - 15),
                cv.FONT_HERSHEY_SIMPLEX, 0.45, (0, 0, 255), 2)
     lst.append(int(cX))
@@ -78,13 +79,14 @@ mat_cX = np.asarray(lst)
 mat_cY = np.asarray(lst2)
 matf = np.column_stack((mat_cX, mat_cY))
 
-
+i = '60'
 for index, item in enumerate(matf):
     if index == len(matf) - 1:
         break
     cv.line(img, item, matf[index + 1], [0, 255, 0], 2)
 cv.line(img, matf[0], matf[len(matf)-1], [0, 255, 0], 2)
 
-cv.imshow("Resulting Image", rescaleframe(img))
+cv.imwrite('img at ' + i +'.jpg', img)
+
 
 cv.waitKey(0)

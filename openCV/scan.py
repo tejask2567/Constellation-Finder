@@ -1,24 +1,101 @@
+from imutils import contours
 import cv2 as cv
+import numpy as np
+import matplotlib.pyplot as plt
+from skimage import measure
+import imutils
+import argparse
 
-#img = cv.imread('Images/Sample.jpg')
+ap = argparse.ArgumentParser()
+ap.add_argument("-i", "--image", required=True,
+                help="path to the image file")
+args = vars(ap.parse_args())
 
-#cv.imshow('Star', img)
-# cv.waitKey(0)
+img = cv.imread(args["image"])
 
 
-cap = cv.VideoCapture('Video/Sample.mp4')
-if (cap.isOpened() == False):
-    print("Error opening video stream or file")
+def rescaleframe(frame, scale=.18):
+    width = int(frame.shape[1] * scale)
+    height = int(frame.shape[0] * scale)
 
-while (cap.isOpened()):
-    ret, frame = cap.read()
-    if ret == True:
-        cv.imshow('Frame', frame)
-        if cv.waitKey(25) & 0xFF == ord('q'):
-            break
+    dimensions = (width, height)
+
+    return cv.resize(frame, dimensions, interpolation=cv.INTER_AREA)
+
+
+def rotate(img, angle, rotPoint=None):
+
+    (height, width) = img.shape[:2]
+    if rotPoint is None:
+        rotPoint = (width//2, height//2)
+
+    rotMat = cv.getRotationMatrix2D(rotPoint, angle, 1.0)
+    dimensions = (width, height)
+
+    return cv.warpAffine(img, rotMat, dimensions)
+
+
+for i in enumerate(img):
+    i = 0
+    p = '0'
+    if (i <= 300):
+        rotate(img, i)
+
+        gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+
+        ret, thresh = cv.threshold(gray, 253, 255, cv.THRESH_BINARY)
+
+        thresh = cv.erode(thresh, None, iterations=2)
+        thresh = cv.dilate(thresh, None, iterations=4)
+
+        labels = measure.label(thresh, connectivity=2, background=0)
+        mask = np.zeros(thresh.shape, dtype="uint8")
+
+        for label in np.unique(labels):
+
+            if label == 0:
+                continue
+
+            labelMask = np.zeros(thresh.shape, dtype="uint8")
+            labelMask[labels == label] = 255
+            numPixels = cv.countNonZero(labelMask)
+
+            if numPixels > 300:
+                mask = cv.add(mask, labelMask)
+
+        cnts = cv.findContours(mask.copy(), cv.RETR_EXTERNAL,
+                               cv.CHAIN_APPROX_SIMPLE)
+        cnts = imutils.grab_contours(cnts)
+        cnts = contours.sort_contours(cnts)[0]
+
+        lst = []
+        lst2 = []
+
+        for (i, c) in enumerate(cnts):
+
+            (x, y, w, h) = cv.boundingRect(c)
+            ((cX, cY), radius) = cv.minEnclosingCircle(c)
+            cv.circle(img, (int(cX), int(cY)), int(radius),
+                      (0, 0, 255), 5)
+            cv.putText(img, "#{}".format(i + 1), (x, y - 15),
+                       cv.FONT_HERSHEY_SIMPLEX, 0.45, (0, 0, 255), 2)
+            lst.append(int(cX))
+            lst2.append(int(cY))
+
+        mat_cX = np.asarray(lst)
+        mat_cY = np.asarray(lst2)
+        matf = np.column_stack((mat_cX, mat_cY))
+
+        for index, item in enumerate(matf):
+            if index == len(matf) - 1:
+                break
+            cv.line(img, item, matf[index + 1], [0, 255, 0], 2)
+        cv.line(img, matf[0], matf[len(matf)-1], [0, 255, 0], 2)
+        cv.imwrite('img at ' + p + '.jpg', img)
+        i += 60
+        p += "60"
 
     else:
         break
 
-cap.release()
-cv.destroyAllWindows()
+cv.waitKey(0)
