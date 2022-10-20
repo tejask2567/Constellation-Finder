@@ -79,14 +79,13 @@ mat_cX = np.asarray(lst)
 mat_cY = np.asarray(lst2)
 matf = np.column_stack((mat_cX, mat_cY))
 
-i = '60'
 for index, item in enumerate(matf):
     if index == len(matf) - 1:
         break
     cv.line(img, item, matf[index + 1], [0, 255, 0], 2)
 cv.line(img, matf[0], matf[len(matf)-1], [0, 255, 0], 2)
 
-cv.imwrite('img at ' + i +'.jpg', img)
+cv.imwrite('img at .jpg', img)
 
 
 cv.waitKey(0)
