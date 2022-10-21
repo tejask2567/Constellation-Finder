@@ -95,7 +95,7 @@ gray_new = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
 
 # joining prefix str and added value
 pattern = re.compile('\d+')
-string = 'openCV\Data-set\Pisces\Pisces_first_0'
+string = 'Data-set\Virgo\Virgo_nineth_0'
 imge = True
 while imge:  # replace your loop condition here
     match = re.search(pattern, string)
