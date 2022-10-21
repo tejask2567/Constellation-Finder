@@ -56,10 +56,12 @@ body {
 
 /* New */
 
+
+
 .drop-zone {
-    top:20vw;
-    left:40vw;
-    position:relative;
+  top:20vw;
+  left:40vw;
+  position:relative;
 	max-width: 250px;
 	height: 250px;
 	padding: 25px;
@@ -74,8 +76,8 @@ body {
 	color: #cccccc;
 	border: 4px  #009578;
 	border-radius: 10px;
-    background-color: darkgray;
-    mix-blend-mode:normal; 
+  background-color: darkgray;
+  mix-blend-mode:normal; 
 }
 
 .drop-zone--over {
@@ -109,6 +111,10 @@ body {
 	text-align: center;
 }
 
+
+.custom-file-label {
+  
+}
 /* 
 .sidebar-toggle {
     position: fixed;

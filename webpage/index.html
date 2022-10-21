@@ -29,11 +29,16 @@
     <div class="process">
         Process
     </div> -->
-
-    <div class="drop-zone">
-		<span class="drop-zone__prompt">Drop file here or click to upload</span>
-		<input type="file" name="myFile" class="drop-zone__input">
-	</div>
+  <form action="/upload-image" method="POST" enctype="multiport/form-data">
+    <div class="dropplace">
+      <div class="drop-zone">
+        <span class="drop-zone__prompt">Drop file here or click to upload</span>
+        <input type="file" name="myFile" class="drop-zone__input">
+      </div>
+      <button type="submit" class="btn btn-primary">Proceed</button>
+    </div>
+  </form>
+    
 
 
   <!--   <button class="sidebar-toggle">

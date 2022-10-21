@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from skimage import measure
 import imutils
 
-img = cv.imread('Images/Leo.tif')
+img = cv.imread('Images\heic0912c.tif')
 img_new = cv.imread('Images/leo2.jpg')
 
 
