@@ -1,0 +1,19 @@
+body {
+    background: #113;
+}
+.hdr header {
+    position: absolute;
+    color: aliceblue;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    background-image: linear-gradient(30deg,#021b79,#1363DF,#0f8de0,#0575e6,#021b79);
+    height: 60px;
+    text-align: center;
+    padding: 10px 40px;
+    font-weight: 50;
+    width: 100vw;
+    text-align: left;
+    overflow: hidden;
+    mix-blend-mode: lighten;
+}

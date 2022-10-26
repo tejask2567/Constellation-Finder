@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from skimage import measure
 import imutils
 
-img = cv.imread('Images\heic0912c.tif')
+img = cv.imread('Images\Leo.tif')
 img_new = cv.imread('Images/leo2.jpg')
 
 
@@ -82,10 +82,12 @@ matf = np.column_stack((mat_cX, mat_cY))
 for index, item in enumerate(matf):
     if index == len(matf) - 1:
         break
-    cv.line(img, item, matf[index + 1], [0, 255, 0], 2)
-cv.line(img, matf[0], matf[len(matf)-1], [0, 255, 0], 2)
+    cv.line(img, item, matf[index + 1], [0, 255, 0], 5)
+cv.line(img, matf[0], matf[len(matf)-1], [0, 255, 0], 5)
 
-cv.imwrite('img at .jpg', img)
+gray_new = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+
+cv.imwrite('img at .jpg', gray_new)
 
 
 cv.waitKey(0)
