@@ -6,6 +6,10 @@ import os
 import pickle
 from flask_cors import CORS
 from werkzeug.utils import secure_filename
+from PIL import Image
+import io
+import base64
+
 app = Flask(__name__)
 
 app.config["IMAGE_UPLOADS"] = "C:/Users/tejas/OneDrive/Desktop/Intership/webpage/static/Images"
@@ -24,20 +28,6 @@ def Star():
     return render_template('Star.html')
 
 
-""" @app.route("/upload-image", methods=['GET', 'POST'])
-def img_upload():
-
-    if request.method == "POST":
-        if request.files:
-            image = request.files["myFile"]
-            image.save(os.path.join(
-                app.config["IMAGE_UPLOADS"], image.filename))
-            print("Image Saved")
-            return redirect(request.url)
-    return render_template("/index.html")
- """
-
-
 @app.route('/predict', methods=['POST', 'GET'])
 def predict():
     if request.method == 'POST':
@@ -46,30 +36,31 @@ def predict():
         if image.filename == '':
             print("file name is invalid")
             return redirect(request.url)
-
+        global filename
         filename = secure_filename(image.filename)
         basedir = os.path.abspath(os.path.dirname(__file__))
         image.save(os.path.join(
             basedir, app.config["IMAGE_UPLOADS"], filename))
+        img = Image.open(app.config["IMAGE_UPLOADS"]+"/" + filename)
+        data = io.BytesIO()
+        img.save(data, "JPEG")
 
-        return render_template("index.html", filename=filename)
+        encode_img_data = base64.b64encode(data.getvalue())
+
+        return render_template("index.html", filename=encode_img_data.decode("UTF-8"))
 
     return render_template('index.html')
 
 
+""" @app.route('/search', methods=['POST', 'GET'])
+def search():
+    if request.method == 'POST':
+        image_list = LoadData().from_folder(['Data'])
+        Index(image_list).Start()
+        results = SearchImage().get_similar_images(
+            image_path=["IMAGE_UPLOADS"]+"/" + filename, number_of_images=5)
+        print(results) """
+
+
 if __name__ == '__main__':
     app.run()
-
-""" 
-image_list = LoadData().from_folder(['Data'])
-
-# For Faster Serching we need to index Data first, After Indexing all the meta data stored on the local path
-Index(image_list).Start()
-
-# for searching, you need to give the image path and the number of the similar image you want
-results = SearchImage().get_similar_images(
-    image_path=image_list[0], number_of_images=5)
-
-# If you want to plot similar images you can use this method, It will plot 16 most similar images from the data index
-print(results)
- """

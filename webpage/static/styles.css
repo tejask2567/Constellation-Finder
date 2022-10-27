@@ -44,7 +44,6 @@ body {
     width: 100vw;
     text-align: left;
     overflow: hidden;
-    mix-blend-mode: lighten;
     /* position: absolute;
     top: 0px;
     bottom: 0px;
@@ -71,7 +70,18 @@ body {
   left:42vw;
   color:#f4f4f4;
 }
-
+.view_img{
+  top:12vw;
+  left:40vw;
+  position:relative;
+	max-width: 400px;
+	height: 300px;
+	padding: 25px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+}
 .drop-zone {
   top:15vw;
   left:40vw;
@@ -91,7 +101,6 @@ body {
 	border: 4px  #009578;
 	border-radius: 10px;
   background-color: darkgray;
-  mix-blend-mode:normal; 
 }
 
 .drop-zone--over {
@@ -137,9 +146,7 @@ body {
   border-bottom-left-radius: 0;
   background-color: var(--feedback-secondary-color);
   color: var(--feedback-primary-color);
-  transition: all .8s;
-   
-
+  transition: all .8s; 
 }
 
 .btn-btn-primary:hover {
@@ -150,6 +157,29 @@ body {
   animation: animatedBackground 5s linear infinite alternate;
 }
 
+.new-button{
+  position:relative;
+  display: flex;
+  top:16vw;
+  left:42.5vw;
+  padding: 4px 12px;
+  font: inherit;
+  font-size: 24px;
+  cursor: pointer;
+  border-radius: 7px;
+  border-bottom-left-radius: 0;
+  background-color: var(--feedback-secondary-color);
+  color: var(--feedback-primary-color);
+  transition: all .8s; 
+}
+
+.new-button:hover {
+  border-radius: 0px;
+  color: var(--feedback-primary-color);
+  background-color: var(--background-color);
+  background-image: url("img.jpg");
+  animation: animatedBackground 5s linear infinite alternate;
+}
 @keyframes animatedBackground {
   from {
     background-position: 0 0;
@@ -158,12 +188,41 @@ body {
     background-position: 100% 0;
   }
 }
+
 .Star{
-  display: flex;
-  object-fit:contain;
-  object-position: 5px 10%;
-  border: 5px solid red;
+  position: fixed;
+  top: 12px;
+  right: 50px;
+  width: 4.4%;
+  height: 6.5%;
+  display:inline-flex;
+  padding: 4px;
+  font: inherit;
+  font-size: 24px;
+  cursor: pointer;
+  border-radius: 20px;
+  background-color: var(--feedback-secondary-color);
+  color: white;
+  transition: all .8s;
+  
 }
+.hdr .Anchor{
+  color: whitesmoke;
+  text-align: center;
+  font: inherit;
+}
+.hdr .Anchor:hover{
+  color: black;
+  text-align: center;
+  border-radius: 0px;
+}
+.Star:hover {
+  border-radius: 0px;
+  color:#000000;
+  background-color: var(--background-color);
+  background-image: url("icon3.png");
+  animation: animatedBackground 1s linear infinite alternate;
+} 
 /* 
 .custom-file-label {
   

@@ -1,11 +1,11 @@
-var width = 960,
+var width = 1200,
     height = 500;
 
 var projection = d3.geo.stereographic()
-    .scale(600)
+    .scale(1000)
 
 var fixedProjection = d3.geo.stereographic()
-    .scale(600)
+    .scale(1000)
     .rotate([0, 0])
 
 var canvas = d3.select("body").append("canvas")

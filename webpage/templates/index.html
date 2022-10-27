@@ -7,14 +7,18 @@
      -->
      <link rel="stylesheet" href="static\styles.css">
     <title>Constellation Finder</title>
+    <link rel="icon" href="{{ url_for('static', filename='/css/Icon1.png') }}" type="image/x-icon">
 </head>
 <body >
     <section class="hdr">
         <header>
             <h2> Constellation Finder </h2>
-            <div class="Star"><a href="{{ url_for('Star')}}" >Click here</a></div>
+            
        </header>
+       <button class="Star"><a class="Anchor" href="{{ url_for('Star')}}" >Map</a></button>
     </section>
+    
+    
     <!-- <div class="container">
         <h4>Upload your Image Here</h4>
     </div>
@@ -32,15 +36,26 @@
         Process
     </div> -->
 <form action="/predict" method="post" enctype="multipart/form-data">
+  {% if not filename %}
   <div class="dropplace">
   <div class="drop-zone">
   <span class="drop-zone__prompt">Drop file here or click to upload</span>
   <input type="file" name="myFile" class="drop-zone__input" id="myFile" required></div>
+  <button type="submit" class="btn-btn-primary">Upload Image</button>
+  {% endif %}
 </form>
-<button type="submit" class="btn-btn-primary">Upload Image</button>
+
 {% if filename %}
+
+<img src="data:Images/jpeg;base64,{{filename}}" alt="Img not found" class="view_img">
+
+  <div><form action="/search" method="post" enctype="multipart/form-data">
+    <button type="submit" class="new-button">Search Image</button>
+  </form>
   <p class="ack">Image has been uploaded</p>
+</div>
 {% endif %}
+
   <!--   <button class="sidebar-toggle">
         <i class="fas fa-bars"></i>
       </button>
