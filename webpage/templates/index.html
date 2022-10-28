@@ -42,18 +42,24 @@
   <span class="drop-zone__prompt">Drop file here or click to upload</span>
   <input type="file" name="myFile" class="drop-zone__input" id="myFile" required></div>
   <button type="submit" class="btn-btn-primary">Upload Image</button>
+
   {% endif %}
 </form>
 
 {% if filename %}
 
-<img src="data:Images/jpeg;base64,{{filename}}" alt="Img not found" class="view_img">
+<img src="{{ url_for('static', filename='/Images/'+filename) }}" alt="Img not found" class="view_img">
 
-  <div><form action="/search" method="post" enctype="multipart/form-data">
+  <div><form action="/search" method="post" >
     <button type="submit" class="new-button">Search Image</button>
-  </form>
-  <p class="ack">Image has been uploaded</p>
+
+</form> 
+  <div class="ack">Image has been uploaded</div> 
 </div>
+{% endif %}
+
+{% if processed_text %}
+<p class = "ack" >{{ processed_text | safe }}</p>
 {% endif %}
 
   <!--   <button class="sidebar-toggle">
