@@ -9,7 +9,7 @@ import cv2 as cv
 
 app = Flask(__name__)
 
-app.config["IMAGE_UPLOADS"] = "C:/Users/tejas/OneDrive/Desktop/Intership/webpage/static/Images"
+app.config["IMAGE_UPLOADS"] = "static/Images"
 CORS(app)
 
 

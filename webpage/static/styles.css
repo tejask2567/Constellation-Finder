@@ -38,12 +38,15 @@ body {
     left: 0px;
     background-image: linear-gradient(30deg,#021b79,#1363DF,#0f8de0,#0575e6,#021b79);
     height: 60px;
-    text-align: center;
+    align-items: center;
     padding: 10px 40px;
-    font-weight: 50;
     width: 100vw;
     text-align: left;
     overflow: hidden;
+}
+
+.hdr .newdr {
+  align-items: center;
 }
 /* New */
 
@@ -228,3 +231,11 @@ div#loading {
   animation: animatedBackground 1s linear infinite alternate;
 } 
 
+@keyframes animStar {
+  from {
+    background-size:  75% 0;
+  }
+  to {
+    background-size: 100% 0;
+  }
+}
